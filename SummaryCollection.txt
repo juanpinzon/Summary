@@ -1,0 +1,115 @@
+SYNCHRONIZED  synchronized
+Synchronized = thread safe against threads accessing their data at the same time. You have some sort of locking for accessing the data.
+
+You can have synchronized methods and blocks inside methods
+	- methods
+	 public synchronized void add(int value) {
+ 		this.count += value;
+ 	}
+
+	- blocks inside methods
+	public void add(int value) {
+
+    	synchronized(this) {
+    		this.count += value;   
+    	}
+  	}
+
+Synchronized		Unsynchronized
+StringBuffer		StringBuilder
+Vector				ArrayList, LinkedList
+HashTable			HashMap
+
+Data Structures				   	Algorithms									Concepts
+Linked Lists 				Breadth First Search					Bit Manipulation
+Binary Trees 				Depth First Search 						Singleton Design Pattern
+Tries 						Binary Search  							Factory Design Pattern
+Stacks 						Merge Sort 								Memory (Stack vs. Heap)
+Queues						Quicksort 								Recursion
+Vectors / ArrayLists		Tree Insert/ Find /e.t.c 				Big-OTime
+Hash Tables
+
+
+- Vector: A vector is very similar to an ArrayList, except that it is synchronized. Its syntax is almost identical as well.
+- ArrayList: An ArrayList is a dynamically resizing array, which grows as you insert elements.
+- LinkedList: Java's LinkedList class.
+
+Same code for all of 3 just change the Data Structure LinkedList for the desire one
+	LinkedList<String> myLink = new LinkedList<String>();
+	myLink.add("Uno1");
+	myLink.add("Dos2");
+	myLink.add("Tres3");
+		
+	System.out.println(myLink.toString());
+	myLink.remove("Uno");  //also by index
+				
+	Iterator<String> itr = myLink.iterator();
+	while(itr.hasNext())
+		System.out.println(itr.next());
+
+
+- Hashtable: Hashtable is basically a datastructure to retain key-value pair.
+  - It didn’t allow null for both key and value. You will get NullPointerException if you add null value.
+  - It is synchronized. So it comes with its cost. Only one thread can access in one time.
+  - Hashtable use Enumerator to iterate the values of Hashtable object.
+	
+	Hashtable<Integer, String> cityTable = new Hashtable<Integer,String>();			
+	cityTable.put(1, "Lahore");
+	cityTable.put(2, "Karachi");
+	//cityTable.put(3, null); 		// NullPointerEcxeption at runtime
+	cityTable.put(4, "Madrid");
+		
+	System.out.println(cityTable.toString());
+	cityTable.remove(2);
+		
+	Enumeration<Integer> keys = cityTable.keys();
+	while (keys.hasMoreElements()) {
+		int key = keys.nextElement();
+		System.out.println(key + ": " + cityTable.get(key));
+	}	
+	
+ 
+ - HashMap:Like Hashtable it also accepts key value pair.  Use iterator
+    - It allows null for both key and value
+    - It is unsynchronized. So come up with better performance: it's much faster and uses less memory
+
+    HashMap<Integer,String> cityMap = new HashMap<Integer, String>();		
+	cityMap.put(1, "Bogota");
+	cityMap.put(2, "Lima");
+	cityMap.put(3, "Quito");
+	cityMap.put(4, "Caracas");
+		
+	System.out.println(cityMap.toString());
+	cityMap.remove(2);		//remove by key
+		
+	Iterator<Integer> keys = cityMap.keySet().iterator();
+	while(keys.hasNext()) {
+		int key = keys.next();
+		System.out.println(key + ": " + cityMap.get(key));
+	}
+
+
+
+- HashSet: HashSet can be used where you want to maintain a unique list.
+  - HashSet does not allow duplicate values. 
+  - It provides add method rather put method. 
+  - You also use its contain method to check whether the object is already available in HashSet. 
+	
+	HashSet<String> stateSet = new HashSet<String>();
+	stateSet.add ("CA");
+	stateSet.add ("WI");
+	stateSet.add ("NY");
+	if (stateSet.contains("PB")) /* if CA, it will not add but shows following message*/
+    	System.out.println("Already found");
+	else
+    	stateSet.add("PB");
+
+
+
+
+ITERATORS
+  Enumeration                     Iterator
+  ----------------                ----------------
+  hasMoreElement()                hasNext()
+  nextElement()                   next()
+  N/A                             remove()

@@ -1,0 +1,198 @@
+* NORMALIZE VS DENORMALIZE db 		- reduce redundancy 
+	+ Normalized databases means following a procedure or set of rules to insure that a database is well designed. 
+	+ Normalized db are designed to minimize redundancy: Store the information only on 1 table (once in the db), so you don't have the same column in different tables.
+		- First Normal Form (1NF): 
+			> atomic property: every column contains a single value
+			> 1NF also prohibits repeating group of columns such as item1, item2,.., itemN. Instead create another table using a one-to-many relationship.
+		- Second Normal Form (2NF):
+		  > 1NF and every non-key column is fully dependent on the primary key. 
+		  > If the primary key is made up of several columns, every non-key column shall depend on the entire set and not part of it. For example, the primary key of the OrderDetails table comprising orderID and productID. If unitPrice is dependent only on productID, it shall not be kept in the OrderDetails table (but in the Products table). On the other hand, if the unitPrice is dependent on the product as well as the particular order, then it shall be kept in the OrderDetails table.
+		- Third Normal Form (3NF):
+			> 2NF and the non-key columns are independent of each others.
+			> In other words, the non-key columns are dependent on primary key, only on the primary key and nothing else. Can't depend om other columns 
+
+	+ Denormalization is commonly used to create highly scalable systems. Designed to optimize read time
+
+
+* Relational Database Design
+	+ A well-designed database shall:
+  	- Eliminate Data Redundancy: The same piece of data shall not be stored in more than one place. 
+  															 Due duplicate data not only waste storage spaces but also easily lead to inconsistencies.
+    - Ensure Data Integrity and Accuracy:
+
+* Relationships among Tables
+	+ One-to-One
+		- For every row in the parent table, there is at most one row (possibly zero) in the child table. Both tables should use same column as primary key.
+		- Explanation: In a "product sales" database, a product may have optional supplementary information such as image, moreDescription and comment. Keeping them inside the Products table results in many empty spaces (in those records without these optional data). Furthermore, these large data may degrade the performance of the database. Instead, we can create another table (say ProductDetails) to store the optional data. A record will only be created for those products with optional data.
+
+	+ One-to-Many 
+		- In a "class roster" database, a teacher may teach zero or more classes, while a class is taught by one (and only one) teacher.
+		- To support a one-to-many relationship, we need to design two tables: 
+			> A table Classes to store information about the classes with classID as the primary key
+			> A table Teachers to store information about teachers with teacherID as the primary key. 
+		- To create the one-to-many relationship create a Foreign Key on the table classes:
+			> Store the primary key of the table Teacher (the "one"-end or the parent table) in the table classes (the "many"-end or the child table).
+
+		- Explanation: One-to-many relationship cannot be represented in a single table. For example, in a "class roster" database, we may begin with a table called Teachers, which stores information about teachers (such as name, office, phone and email). To store the classes taught by each teacher, we could create columns class1, class2, class3, but faces a problem immediately on how many columns to create. On the other hand, if we begin with a table called Classes, which stores information about a class (courseCode, dayOfWeek, timeStart and timeEnd); we could create additional columns to store information about the (one) teacher (such as name, office, phone and email). However, since a teacher may teach many classes, its data would be duplicated in many rows in table Classes.
+
+		+ Many-to-Many
+		-	In a "product sales" database, a customer's order may contain one or more products; and a product can appear in many orders. 
+		- The many-to-many relationship is, in fact, implemented as two one-to-many relationships:
+			> An order has many items in OrderDetails. An OrderDetails item belongs to one particular order.
+			> A product may appears in many OrderDetails. Each OrderDetails item specified one product.
+		
+		- Explnation:	Let's illustrate with a "product sales" database. We begin with two tables: Products and Orders. 
+			> The table products contains information about the products (such as name, description and quantityInStock) with productID as its primary key. 
+			> The table orders contains customer's orders (customerID, dateOrdered, dateRequired and status). 
+			> We cannot store the items ordered inside the Orders table, as we do not know how many columns to reserve for the items. We also cannot store the order information in the Products table.
+		- To support many-to-many relationship, we need to create a third table (known as a junction table), say OrderDetails, where each row represents an item of a particular order. For the OrderDetails table, the primary key consists of two columns: orderID and productID, that uniquely identify each row. The columns orderID and productID in OrderDetails table are used to reference Orders and Products tables, hence, they are also the foreign keys in the OrderDetails table.
+
+
+* RAID: stands for Redundant Array of Inexpensive (Independent) Disks.
+	RAID storage uses multiple disks in order to provide fault tolerance, to improve overall performance, and to increase storage capacity in a system.
+	- RAID 0 : (2 Disks) Blocks Striped, No Mirror, No parity. Performance: Excelent. Don't use for critical system
+	- RAID 1 : (2 Disks) Blocks Mirrored, No Striped, No parity. Performance: Good, Redundancy: Excelent.
+	- RAID 5 : (3 Disks) Blocks Striped, Distributed Parity. Performance: Good, Redundancy: Good. Best cost effective option, providing both performance and redundancy
+	- RAID 10: (4 Disks) Blocks Striped, Blocks Mirrored. 
+
+
+* DLL: Data definition language
+	- DDL statements are used to build and modify the structure of your tables and other objects in the database. 
+		
+		CREATE DATABASE tutorial_database;
+		SHOW DATABASES;
+		USE tutorial_database;
+		DROP DATABASE tutorial_database;
+
+
+	* TABLES STATEMENTS	
+		- Create a Table
+			CREATE TABLE Teachers (				
+				tfirstname    VARCHAR(20) NOT NULL,
+	      tlastname     VARCHAR(20) NOT NULL,
+	      tphone        VARCHAR(20) NOT NULL,
+	      tstreet       VARCHAR(50),
+	      tzipcode      VARCHAR(5));
+	      teacher_id 		INT NOT NULL AUTO_INCREMENT,
+				PRIMARY KEY (teacher_id)
+			);
+
+			CREATE TABLE userroles (
+	   		user_id INT NOT NULL,
+	   		role_id INT NOT NULL,
+	   		PRIMARY KEY(user_id,role_id),
+	   		FOREIGN KEY(user_id) REFERENCES users(user_id),
+	   		FOREIGN KEY(role_id) REFERENCES roles(role_id)
+			);
+
+		- PRIMARY KEYS, FOREIGN KEYS
+			- To Give an "Alias" to a PRIMARY KEY use CONSTRAINT:
+				CONSTRAINT pk_PersonID PRIMARY KEY (P_Id,LastName)
+
+			- Add a Primary key to a Table
+				ALTER TABLE customers ADD CONSTRAINT customers_pk PRIMARY KEY (cfirstname, clastname, cphone);
+
+		- Describe a Table
+			DESCRIBE Teachers;
+
+		- Modify a Table --> add, delete, or modify columns in an existing table
+			- Add
+			ALTER TABLE table_name ADD column_name datatype
+			- Delete
+			ALTER TABLE table_name DROP COLUMN column_name
+			- Modify Columns
+			ALTER TABLE table_name MODIFY COLUMN column_name datatype		
+
+* DML: Data manipulation language
+	- DML statements are used to work with the data in tables. 
+
+	> DATA
+		- Insert
+			INSERT INTO Teachers (tfirstname, tlastname, tphone, tstreet, tzipcode) 
+	   		VALUES ('Tom', 'Jewett', '714-555-1212', '10200 Slater', '92708');
+
+	  - Update
+	   	UPDATE Teachers SET cphone = '714-555-2323' WHERE cphone = '714-555-1212';
+
+	  - Delete
+	  	DELETE FROM table_name WHERE some_column=some_value; 
+
+
+	> Queries
+					SELECT DISTINCT S.name, S.gpa, S.age*2 AS a2
+						FROM Students S
+						WHERE S.dept = 'CS'
+						[GROUP BY <column list>
+						[HAVING <predicate>] ]
+						ORDER BY S.gpa, S.name, a2;
+
+		- DISTINCT flag specifies removal of duplicates before output
+		-	ORDER BY clause specifies output to be sorted
+			- Lexicographic ordering (left to right)
+		- Ascending order by default, but can be overridden
+			– DESC flag for descending, ASC for ascending
+			– Can mix and match, lexicographically
+		-	Aggregations: Before producing output, compute a summary
+			- Other aggregates: SUM, COUNT, MAX, MIN
+		- GROUOP BY Partition table into groups with same GROUP BY column values. Can group by a list of columns. Produce an aggregate result per group
+
+					SELECT [DISTINCT] AVG(S.gpa), S.dept
+						FROM Students S
+						[WHERE <predicate>]
+						GROUP BY S.dept
+						HAVING COUNT(*) > 5
+						[ORDER BY <column list>] ;
+		- The HAVING predicate is applied after grouping and aggregation
+			- Hence can contain anything that could go in the SELECT list
+			- I.e. aggs or GROUP BY columns
+		- HAVING can only be used in aggregate queries (It’s an optional clause for GROUP BY) GROUP BY S.dept HAVING COUNT(*) > 5
+		- String comparison WHERE S.sname LIKE 'B_%B'.  ‘_’ stands for any one character and ‘%’ stands for 0 or more arbitrary characters.
+		- Instead of OR use UNION
+		- Instead of AND use INTERSECT  
+
+					SELECT S.sid FROM Sailors S, Boats B, Reserves R WHERE S.sid=R.sid AND R.bid=B.bid AND B.color='red'
+						INTERSECT
+					SELECT S.sid FROM Sailors S, Boats B, Reserves R WHERE S.sid=R.sid AND R.bid=B.bid AND B.color='green'
+		OR Self-join
+					SELECT R1.sid FROM Boats B1,Reserves R1, Boats B2, Reserves R2
+						WHERE R1.sid=R2.sid AND R1.bid=B1.bid AND R2.bid=B2.bid AND (B1.color='red' AND B2.color='green')
+
+
+		+ Nested Queries:  IN, NOT IN 
+					SELECT S.sname FROM Sailors S WHERE S.sid 
+						IN (SELECT R.sid FROM Reserves R WHERE R.bid=102);
+		+ Nested Queries:  EXIST, NOT EXIST
+					SELECT S.sname FROM Sailors S WHERE EXISTS (SELECT * FROM Reserves R WHERE R.bid=102 AND S.sid=R.sid)
+		+ The sailor with the highest rating
+					SELECT * FROM Sailors S WHERE S.rating >= ALL (SELECT S2.rating FROM Sailors S2)
+					SELECT * FROM Sailors S ORDER BY rating DESC LIMIT 1;
+		
+		+ Joins
+					SELECT (column_list)
+						FROM table_name
+						[INNER | {LEFT |RIGHT | FULL } {OUTER}] JOIN table_name
+						ON qualification_list
+						WHERE …
+
+			- Inner Join
+					SELECT s.sid, s.sname, r.bid FROM Sailors s, Reserves r WHERE s.sid = r.sid
+					SELECT s.sid, s.sname, r.bid FROM Sailors s INNER JOIN Reserves r ON s.sid = r.sid
+			- Left Outer Join  Returns all matched rows, plus all unmatched rows from the table on the left of the join clause (use nulls in non-matching tuples)   
+	 
+		+ Views
+					CREATE VIEW Redcount AS
+						SELECT B.bid, COUNT (*) AS scount FROM Boats2 B, Reserves2 R
+							WHERE R.bid=B.	bid AND B.color='red' GROUP BY B.bid
+
+						SELECT bname, scount FROM Redcount R, Boats2 B 
+							WHERE R.bid=B.bid AND scount < 10
+
+		+	WITH
+					WITH Reds(bid, scount) AS
+						(SELECT B.bid, COUNT (*) FROM Boats2 B, Reserves2 R WHERE R.bid=B.bid AND B.color='red' GROUP BY B.bid)
+						SELECT bname, scount FROM Boats2 B, Reds WHERE Reds.bid=B.bid AND scount<10
+
+		+ KEYS
+			- Possibly many candidate keys (specified using UNIQUE), one of which is chosen as the primary key.
+					PRIMARY KEY(user_id,role_id),
+	   			FOREIGN KEY(user_id) REFERENCES users(user_id),

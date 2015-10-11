@@ -1,0 +1,108 @@
+OBJECT ORIENTED POGRAMMING
+* An object is an instance of a class.
+* An object is a data type that has structure and state. 
+
+
+FUNDAMENTAL OOP CONCEPTS	
+	- Encapsulation: 	Wrapping the data (class fields) and the operations that apply to them (methods) together as as single unit.									
+	- Inheritance:		Extend the functionality of an object. In other words, we can create new types with restricted (or extended) properties of the original type.
+						Allows Code Reuse
+	- Polymorphism: 	Polymorphism is the idea that when you use an object, it could be doing different things.
+						Property and object can behave like another.
+	- Abstraction: 		Hide the implementation of the object: user will have the information on what the object does instead of how it does it. 
+						Abstraction is achieved using Abstract classes, and Interfaces.
+
+* Aggregation --> an association: Aggregation between Student and Address classes. Student HAS-A Address.
+* A polymorphic reference type can reference objects of several different types. When methods are applied to the polymorphic type, the operation that is appropriate to the actual referenced object is automatically selected. In Java, this is implemented as part of inheritance. 
+
+
+OBJECTS
+* An object in Java is an instance of a class.
+* Class members = Class attributes
+	- A field is a member that stores data
+	- A method is a member that performs an action.
+
+	- private A member that is not visible to nonclass methods. 
+	- public A member that is visible to nonclass methods. 
+
+* ACCESS MODIFIERS
+
+            | Class | Package | Subclass | World
+————————————+———————+—————————+——————————+———————
+public      |  y    |    y    |    y     |   y
+————————————+———————+—————————+——————————+———————
+protected   |  y    |    y    |    y     |   n
+————————————+———————+—————————+——————————+———————
+default     |  y    |    y    |    n     |   n
+————————————+———————+—————————+——————————+———————
+private     |  y    |    n    |    n     |   n
+
+y: accessible
+n: not accessible
+
+
+COMMENTS
+* The javadoc program automatically generates documentation for classes.
+* javadoc tags include @author, @param, @return, and @throws. They are used in javadoc comments.  See Pag74
+
+
+CONSTRUCTOR
+* Allow us create new objects and intialize them
+* method same name of the current class, but does not return anything
+	e.g.    public NameClass(param1, param2,...,paramN) {}
+* A constructor may have Zero parameters, and still initialize 
+* A constructor tells how an object is declared and initialized.
+* Overloading constructors: You can have several constructors with same name, but heir parameter list types differ.
+
+GETTERS AND SETTERS   <-->   mutators and accessors
+* A method that examines but does not change the state of an object is an accessor. 
+* A method that changes the state is a mutator.
+
+
+THIS
+* this is as a reference to the current object
+	e.g. this.AttributeName
+ - Alias test
+ 	- Check if a parameter object is the same current object
+ 		public void finalTransfer( Account rhs ) {
+			if( this == rhs ) // Alias test
+				return;
+			dollars += rhs.dollars;
+			rhs.dollars = 0;
+		}
+
+* this can be used to make a call to another constructor in the same class.
+	public Date( ) {
+		this( 1, 1, 2010 ); // Call the 3-param constructor
+	}
+
+
+INSTANCE OF
+ObjectName instanceof ClassName  --> return true or false
+	e.g.  if(circle instanceof shape) 
+
+
+STATIC 
+* static method --> A static method is a method that does not need a controlling object (can be invoked without an object reference.) ClassName.StaticMethodName
+	e.g. Integer.parseInt, Math.sin, and Math.max.
+* static field  --> A static field is shared by all (possibly zero) instances of the class.
+	e.g. public static final int MAX_VALUE = 2147483647;
+* A static initializer is a block of code that is used to initialize static fields.
+    e.g. 
+	public class Squares
+	{
+		private static double [ ] squareRoots = new double[ 100 ];
+		static {
+			for( int i = 0; i < squareRoots.length; i++ )
+				squareRoots[ i ] = Math.sqrt( ( double ) i );
+		}
+	 	// Rest of class
+	}
+
+
+PACKAGES
+* A class in package p must be in a directory p
+* Public class must be in a file of the same name
+* Fields with no visibility modifiers are package visible (they are visible only to other classes in the same package)
+	- Only public classes of a package may be used outside the package.
+* Non-public classes are visible only to other classes in the same package.

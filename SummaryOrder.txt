@@ -1,0 +1,68 @@
+* BIG O   http://bigocheatsheet.com/
+	- It is used to describe the performance or complexity of an algorithm: time required or the space used by an algorithm. Describes the worst-case scenario
+	- With big O notation we express the runtime in terms of—brace yourself—how quickly it grows relative to the input, as the input gets arbitrarily large. 
+
+	* TIME COMPLEXITY
+
+	+ O(1): Constant time.
+		- Describes an algorithm that will always execute in the same time (or space) regardless of the size of the input data set.
+		  def print_first_item(list_of_items):
+		    print list_of_items[0]
+
+  + O(N): Linear time.
+  	- Describes an algorithm whose performance will grow linearly and in direct proportion to the size of the input data set.
+  		> If the list has 10 items, we have to print 10 times. If it has 1,000 items, we have to print 1,000 times. 
+  		> Some times n is the size of the list, others times is the numer n. 
+				def say_hi_n_times(n):
+  				for time in range(n):
+    				print "hi"
+
+				def print_all_items_in_list(the_list):
+  				for item in the_list:
+    				print item
+
+
+	+ O(N^2): Quadratic time.
+	 	- Represents an algorithm whose performance is directly proportional to the square of the size of the input data set. 
+		- This is common with algorithms that involve nested iterations over the data set.
+			bool ContainsDuplicates(IList<string> elements) {
+    		for (var outer = 0; outer < elements.Count; outer++) {
+        	for (var inner = 0; inner < elements.Count; inner++) {
+          	// Don't compare with self
+            if (outer == inner) 
+            	continue;
+
+            if (elements[outer] == elements[inner]) 
+            	return true;
+        	}
+    		}
+				return false;
+			}
+
+	+ O(2^N): Denotes an algorithm whose growth doubles with each additon to the input data set. 
+			int Fibonacci(int number) {
+		    if (number <= 1) 
+		    	return number;
+		   	return Fibonacci(number - 2) + Fibonacci(number - 1);
+			}
+
+	+ O(log N): Doubling the size of the input data set has little effect on its growth. It is extremely efficient when dealing with large data sets. 
+		>  Binary Search
+
+
+	* SPACE COMPLEXITY
+		- Sometimes we want to optimize for using less memory instead of (or in addition to) using less time.
+		- We simply look at the total size (relative to the size of the input) of any new variables we're allocating. 
+
+
+	+ O(1): We aren't allocating any new variables 
+			def say_hi_n_times(n):
+    		for time in range(n):
+        	print "hi"
+
+  + O(N): The size of hi_array scales with the size of the input:
+  		def array_of_hi_n_times(n):
+    		hi_array = []
+    		for time in range(n):
+        	hi_array.append("hi")
+    		return hi_array

@@ -1,0 +1,184 @@
+INHERITANCE   extends
+- Inheritance is the fundamental object-oriented principle that is used to reuse code among related classes. 
+- Inheritance allows to show relationship between classes.
+- Inheritance models the IS-A relationship.
+- Inheritance allows us to derive classes from a base class without disturbing the implementation of the base class.
+- The extends clause is used to declare that a class is derived from another class.
+
+IMPORTANT: In an IS-A relationship, we say the derived class is a (variation of the) base class.
+	- Circle IS-A Shape and a Car IS-A Vehicle.
+
+- In a HAS-A relationship, we say the derived class has a (instance of the) base class. 
+	- Composition is used to model HAS-A relationships.	
+	- a car HAS-A steeringWheel object
+
+IMPORTANT: A derived class only can add things, cannot remove things from base class 
+1. A derived class inherits all the properties of a base class. 
+2. It can then add data members, override methods (as public), and add new methods.
+3. OJO: derived class CAN only manipulate inherited private fields (from base class) by using public base class methods.
+4. It cannot remove fields or methods.
+5. Each derived class is a completely new class. 
+6. A derived class extends a base class. An extends clause declares that a class is derived from another class.
+
+
+POLYMORPHISM
+* Polymorphism (dynamic dispatch): base class can polymorph to any of its derived classes.
+- Base class and derived class should have the same method within its declaration (overridden or not), in order to have polymorphism
+- When operations are applied to the polymorphic variable, the operation appropriate to the referenced object is automatically selected.
+	Student s = new Student( "Joe", 26, "1 Main St", "202-555-1212", 4.0 );
+	Employee e = new Employee( "Boss", 42, "4 Main St.", "203-555-1212", 100000.0 );
+	Person p = null; //polymorphic instance: could be Person, Student or Employee
+	if(getTodaysDay( ).equals("Tuesday"))
+		p = s;
+	else
+		p = e;
+	
+	System.out.println("Person is " + p.toString( )); //Polymorphism: toString() method is choose during execution time
+    
+
+* A subclass (aka derived class) is type-compatible with its base class, meaning that an object of the base class may reference an object of the derived class, but not vice versa.
+	- Because a derived class IS-A base class, a derived object can be accessed by a base class reference.
+   
+   i.e. Because a Student IS-A Person, a Student object can be accessed by a Person reference. 
+		Student s = new Student( "Joe", 26, "1 Main St","202-555-1212", 4.0 );
+		Person p = s;
+		System.out.println("Age is " + p.getAge( )); 
+		
+
+* Downcast      
+A downcast is a cast down the inheritance hierarchy. Derived class with different methods than base class
+i.e:
+	Person [ ] p = new Person[ 4 ];
+	p[0] = new Person("joe", 25, "New York", "212-555-1212");
+	p[1] = new Student("jill", 27, "Chicago", "312-555-1212", 4.0);
+	p[3] = new Employee("bob", 29, "Boston", "617-555-1212", 100000.0);
+	
+	Now consider this, YOYU CAN'T DO: 
+	p[3].raise( 0.04 );
+	
+	NOTE: Even thought the static type of p[3] is a Person, raise() method is not defined for person at compile time.
+	IMPORTANT: At compile time, only (visible) members of the static type of the reference can appear to the right of the dot operator.
+	
+	So use downcast:
+		if( p[3] instanceof Employee )
+			((Employee) p[3]).raise( 0.04 );
+
+* inheritance hierarchies
+If X IS-A Y, then X is a subclass of Y and Y is a superclass if X. These relationships are transitive.
+
+* protected
+A protected class member is visible to the derived class and also classes in the same package. Avoid use protected and instead use accessor and mutator methods.
+
+* super
+- super is used to call the base class constructor
+- super is used to call a base class method and do Partial overriding. 
+	i.e.: public void doWork() { super.doWork( ); }
+
+* overridden
+- Java 5 includes covariant return types:  
+  When overridden a method return type only needs to be type compatible with the superclass method’s return type.
+
+
+
+  4.2 
+* abstract
+- An abstract method is a method that declares functionality that all derived class objects must eventually implement. In other words, it says what these objects can do. However, it does not provide a default implementation.
+- A class with at least one abstract method must be an abstract class. 
+- Also, abstract class can implement its own methods, which could be overridden or not for subclasses and can have its own fields.
+
+- When a derived class fails to override an abstract method with an implementation, the method remains abstract in the derived class. As a result, if a class that is not intended to be abstract fails to override an abstract method, the compiler will detect the inconsistency and report an error.
+
+public abstract class Shape {
+	//When circle and rectangle extend shape they have to impleement methods below.. See they are abstract
+	public abstract double area( );
+	public abstract double perimeter( );
+	
+	//these method is implemented inside the abstract class and can be override in the derived class.
+	public double semiperimeter( ) { 
+		return perimeter( ) / 2; 
+	}
+}
+
+
+
+INTERFACE  		implements
+The interface is an abstract class that contains no implementation details. So the class that implements the interface should implements these methods.
+If a class that implements an interface fails to implement any methods in an interface, it must be declared abstract.
+With interfaces a single class can have several "views", different APIs or capabilities: Interfaces are kind-of multiple inheritance with no problems that the latter introduces
+
+* interface (name_class implements name_interface)
+- The extends clause must precede the implements clause.
+- The interface is an abstract class that contains no implementation details. 
+- It consists of public abstract methods and public static final fields, only. //There is no need to put "public abstract" on them.
+- If a class that implements an interface fails to implement any methods in an interface, it must be declared abstract.
+Note:
+- A class may extend only one other class, but it may implement more than one interface.
+- A class that implements an interface can be extended if it is not final.
+- Interfaces can extend other interfaces (including multiple interfaces).
+
+public interface Stretchable {
+	void stretch( double factor );
+}
+
+public class Rectangle extends Shape implements Stretchable {
+	/* other methods and fields */
+
+	public void stretch( double factor ) {
+		if( factor <= 0 )
+			throw new IllegalArgumentException( );
+
+		if( length > width )
+			length *= factor;
+		else
+			width *= factor;
+	}
+}
+
+
+
+GENERICS
+* Generic programming allows us to implement type independent logic.
+
+* wrapper
+- A wrapper class stores an entity (the wrapee) and adds operations that the original type 
+  does not support correctly.
+- Java provides a wrapper class for each of the eight primitive types. For instance, the wrapper
+  for the int type is Integer. Each wrapper object is immutable (meaning its state can never change)
+- Autoboxing: If an int is passed in a place where an Integer is required, the compiler will 
+  insert a call to the Integer constructor behind the scenes. 
+- Auto-unboxing: If an Integer is passed in a place where an int is required, the compiler will 
+  insert a call to the intValue method behind the scenes.
+  
+* adapter
+- An adapter class is used when the interface of a class is not exactly what is needed.
+
+
+IMPLEMENTING GENERIC COMPONENTS USING java5 GENERICS
+* CLASS
+- When a generic class is specified, the class declaration includes one or more type parameters, enclosed in angle brackets <> after the class name.
+public class GenericMemoryCell<AnyType> {
+	public AnyType read( ) { 
+		return storedValue; 
+	}
+	public void write( AnyType x ) { 
+		storedValue = x; 
+	}
+	private AnyType storedValue;
+}
+
+* INTERFACE
+- Interfaces can also be declared as generic.
+public interface Comparable<AnyType> {
+	public int compareTo( AnyType other );
+}
+
+- Generic collections are not covariant. Thus, Wildcards are used to express subclasses (or superclasses) of parameter types.
+example: totalArea method revised with wildcards that works if passed an ArrayList<Square>, instead of an ArrayList<Shape>
+
+public static double totalArea( ArrayList<? extends Shape> arr ) {
+	double total = 0;
+	for( Shape s : arr )
+		if( s != null )
+			total += s.area( );
+	return total;
+}

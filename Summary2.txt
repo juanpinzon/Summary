@@ -1,0 +1,110 @@
+OBJECTS
+* For reference types, == is true only if the two references reference the same object.
+
+* The "equals" method can be used to test whether two references reference objects that have identical states.
+
+STRINGS
+Strings are immutable; that is, a String object will not be changed.
+* Concatenation  -->  +=
+
+* Comparing Strings --> Use equals and compareTo to perform string comparison.
+lhs.equals(rhs)  or  lhs.compareTo(rhs)  --> return negative number if lhs < rhs, Zero if they are equal, or positive if lhs>rhs
+
+* Other methods
+String greeting = "hello";
+int len = greeting.length( ); // len is 5
+char ch = greeting.charAt( 1 ); // ch is 'e'
+String sub = greeting.substring( 2, 4 ); // sub is "ll"
+
+* Convert other types to String --> toString    --> Integer.toString(45);
+System.out.println( "55 in base 2: " + Integer.toString( 55, 2 ) );
+
+* Convert Strings to primitive types
+int x = Integer.parseInt( "75" );
+double y = Double.parseDouble( "3.14" );
+
+
+
+ARRAYS
+int [] arr = new int [10];
+for(int i=0;i<arr.length;i++)
+	System.out.println(i);
+		
+int [] arr2 = {1,2,3,4};
+for(int i:arr2)
+	System.out.println(i);
+
+methodCall( actualArray ); // method call
+void methodCall( int [ ] formalArray ) // method declaration
+
+* Dynamic array expansion
+int [] original = arr; 				// 1. Save reference to arr
+arr = new int [ arr.length*2 ]; 	// 2. Have arr reference more memory
+for( int i = 0; i < 10; i++ ) 		// 3. Copy the old data over
+	arr[i] = original[i];
+original = null;			 		// 4. Unreference original array
+
+* Multidimensional --> see example
+
+
+
+EXCEPTIONS
+* A try block encloses code that might generate an exception.
+* A catch block processes an exception.
+
+	- FINALLY: guarantees that a section of code will be executed, even if an exception is thrown
+		- The finally clause is always executed prior to completion of a block, regardless of exceptions.
+  		- Some objects that are created in a try block must be cleaned up, so we use finally clause.
+
+* Common standard runtime exceptions: Page 50
+	- ArithmeticException 			Overflow or integer division by zero.
+	- NumberFormatException 		Illegal conversion of String to numeric type.
+	- IndexOutOfBoundsException 	Illegal index into an array or String.
+	- NegativeArraySizeException 	Attempt to create a negative-length array.
+	- NullPointerException 			Illegal attempt to use a null reference.
+	- SecurityException 			Run-time security violation.
+	- NoSuchElementException		Failed attempt to obtain “next” item
+
+* Pueden haber varios catch uno detras del otro
+	Scanner in = new Scanner(System.in);
+	System.out.println("Enter number: ");
+	try {
+		String line = in.nextLine();
+		int number = Integer.parseInt(line);
+		System.out.println("Half of number is: " + (float)number/2);
+	}
+	catch(NumberFormatException e) {
+		System.out.println(e);
+	}
+	catch(ArithmeticException e) {
+		System.out.println(e);
+	}
+	finally {
+		//guarantee that code here will be executed after try and catch block
+	}
+	in.close();
+
+* throws and throw
+	- The throw clause is used to throw an exception.
+	- The throws clause is used to indicates propagated exceptions in a method.
+
+	public static float Div(int num) throws ArithmeticException {
+		if(num == 0)
+			throw new ArithmeticException("Divide by zero");
+		else 
+			return (float)100/num; 
+	}
+
+See examples exceptio1, exceptio2
+
+
+
+
+MORE
+* finalize() method
+	- Garbage Collector call this method before destroying the object
+	protected void finalizeQ throws Throwable {
+		//Close open files, release resources, etc 
+	}
+
+*

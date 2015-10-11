@@ -1,0 +1,12 @@
+OPERATING SYSTEM
+- Windows, Linux(Ubuntu)
+	- Partition the Disk, so it work with both Operating Systems
+	- Install the operating system on to the hard disk.
+	- Work with Virtual MAchines like VirtualBox
+
+
+CODE:
+I have been coding in diferent languages like: C++, Java, JavaScript (jQuery), Perl, Python, Ruby, HTML, XML
+
+Sorts
+http://www.javaengineeringprograms.com/quicksort-in-java/

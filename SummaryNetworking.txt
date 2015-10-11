@@ -1,0 +1,32 @@
+NETWORKING
+* LAYERS. Why? Reduce Complexity and Improve Fleixibility
+	7. Application (HTTP, DNS): Web server, browser, mail, game
+		- OSI Model includes 6. Presentation and 5. Session, but often are implemented as part of Application Layer	
+		- This layer with session and connection coordination.
+		- This layer provides application services for file transfers, e-mail, and other network software services
+	4. Transport (TCP, UDP): TCP
+		- This layer provides transparent transfer of data between end systems, or hosts, and is responsible for end-to-end error recovery and flow control. It ensures complete data transfer. 
+	3. Network (IP): - Packets
+		-  This layer provides switching and routing technologies, creating logical paths, known as virtual circuits, for transmitting data from node to node. 
+	2. Data link (Ethernet): hardware/firmware/drivers - Frames
+		- At this layer, data packets are encoded and decoded into bits. It furnishes transmission protocol knowledge and management and handles errors in the physical layer, flow control and frame synchronization. 
+	1. Physical (optical, copper, radio) - Physical Structure
+		- This layer conveys the bit stream - electrical impulse, light or radio signal — through the network at the electrical and mechanical level.
+
+	- All layers must exist at host: Bits arrive on wire, must make it up to application.
+	- 4. The network does not support reliable delivery --> Transport layer (and above) not supported
+
+* WORKFLOW
+1. Bits arrive on wire --> Physical layer (L1)
+2. Packets must be delivered across links and local networks --> Datalink layer (L2)
+3. Packets must be delivered between networks for global delivery --> Network layer (L3)
+
+
+* PROTOCOL : An agreement between parties on how to communicate.
+	- Encapsulation Protocol Headers
+	
+* end-2-end principle
+- Some application requirements can only be correctly implemented end-to-end (reliability, security, etc.) --> @ Hosts
+- Implementing these in the network is hard (every step along the way must be fail proof)
+	- switches: implement physical and datalink layers(L1,L2)
+	- routers: implement physical, datalink, network layers (L1, L2,L3)

@@ -1,0 +1,73 @@
+CONSTANTS
+static final double PI = 3.141516
+
+* CONVERTING
+Return 0 cause x and y are integers, Thus you need to create a temp variable for either x, or y, so the operation is performed over doubles
+double quotient;
+int x = 6;
+int y = 10;
+quotient = x / y; 		
+quotient = (double) x / y;
+
+
+BREAK & CONTINUE
+* The <break> statement exits the innermost loop or switch statement. --> To terminate the execution of a loop
+while( ... )
+{
+	...
+	if( something )
+	break;
+	...
+}
+
+* The <continue> statement goes to the next iteration of the innermost loop.
+The following fragment prints the first 100 integers, with the exception of those divisible by 10:
+for( int i = 1; i <= 100; i++ )
+{
+	if( i % 10 == 0 )
+		continue;
+	System.out.println( i );
+}
+
+
+CONDITIONAL OPERATOR
+var = testExpr ? yesExpr : noExpr
+int a = 5;
+int result = a > 0 ? 1 : -1;
+
+
+SWITCH CASE --> Only char or int data
+switch(result) {
+	case 1:
+		System.out.println("Positive");
+	break;
+	case -1:
+		System.out.println("Negative");			
+	break;
+	default:
+		System.out.println("Zero");
+	break;
+}
+
+
+METHODS
+* Method Signature : name + parameters. return and exception are NOT included.
+
+* Overloading
+Several methods may have the same name as long as their parameter list types differ.
+	- by Different Number of parameters list
+		disp(char c)
+		disp(char c, int num)
+	- by Difference in data type of arguments
+		e.g disp(char c)
+			disp(int c)
+	- by Order of data type of arguments
+		e.g disp(char c, int num)
+			disp(int num, char c)
+
+
+
+* FINAL : final is used to control whether a variable, method, or class is "changeable."
+- A final variable is a constant
+- A final method is invariant over the inheritance hierarchy and may not be overridden.
+- A final class may not be extended. A leaf class is a final class.
